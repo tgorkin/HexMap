@@ -1,8 +1,9 @@
-package;
+package hexGame;
 import flash.display.MovieClip;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
 import flash.geom.Point;
+import flash.text.TextField;
 
 /**
  * ...
@@ -16,18 +17,25 @@ class Hex extends MovieClip {
 	private var m_edgeLength:UInt;
 	
 	private var m_fillColor:UInt;
+	
+	private var m_xIndex:UInt;
+	
+	private var m_yIndex:UInt;
 
-	public function new(edgeLength:UInt, fillColor:UInt=0xFFFFFF) {
+	public function new(edgeLength:UInt, fillColor:UInt=0xFFFFFF, xIndex:UInt, yIndex:UInt) {
 		super();
 		m_edgeLength = edgeLength;
 		m_fillColor = fillColor;
-		redraw();
+		m_xIndex = xIndex;
+		m_yIndex = yIndex;
+		drawEdges();
+		drawIndices();
 		
 		this.addEventListener(MouseEvent.MOUSE_OVER, onMouseOver);
 		this.addEventListener(MouseEvent.MOUSE_OUT, onMouseOut);
 	}
 	
-	private function redraw() {
+	private function drawEdges() {
 		graphics.clear();
 		
 		graphics.lineStyle(2, 0x000000, 0.7 );
@@ -44,6 +52,12 @@ class Hex extends MovieClip {
 		graphics.endFill();
 	}
 	
+	private function drawIndices() {
+		var tf:TextField = new TextField();
+		tf.text = m_xIndex + "," + m_yIndex;
+		addChild(tf);
+	}
+	
 	private function drawPoints(points:Array<Point>) {
 		var p:Point = points[0];
 		graphics.moveTo(p.x, p.y);
@@ -58,10 +72,15 @@ class Hex extends MovieClip {
 	}
 	
 	private function onMouseOver(evt:MouseEvent) {
-		this.transform.colorTransform = new ColorTransform(1, 1, 1, 1, 0, 0, -200, 0);
+		this.transform.colorTransform = new ColorTransform(1, 1, 1, 1, 100, 100, 100, 0);
 	}
 	
 	private function onMouseOut(evt:MouseEvent) {
 		this.transform.colorTransform = new ColorTransform(1, 1, 1, 1, 0, 0, 0, 0);
+	}
+	
+	public function setColor(color:UInt) {
+		m_fillColor = color;
+		drawEdges();
 	}
 }
