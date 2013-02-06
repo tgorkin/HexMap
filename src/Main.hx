@@ -8,20 +8,21 @@ import hexGame.Stats;
 import hexGame.MapGenerator;
 
 /**
- * ...
+ * Main entry point for application
  * @author tgorkin
  */
 
 class Main {
 	
-	static var map:HexMap;
-	
+	/**
+	 * static method that executes when the application starts
+	 */
 	static function main() {
 		var stage:Stage = Lib.current.stage;
 		stage.scaleMode = StageScaleMode.NO_SCALE;
 		stage.align = StageAlign.TOP_LEFT;
 		
-		map = new HexMap();
+		var map = new HexMap();
 		map.init(30, 60);
 		stage.addChild(map);
 		

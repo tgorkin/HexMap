@@ -1,19 +1,27 @@
 package hexGame;
 
 /**
- * ...
+ * Static helper functions for generating terrain on a hex map
  * @author tgorkin
  */
 
 class MapGenerator {
 
-	static public function generateLand(hexMap:HexMap) {
+	/**
+	 * Test method to color the center of a hexmap
+	 * @param	hexMap
+	 */
+	static public function colorCenter(hexMap:HexMap) {
 		var middleX:Int = Std.int(hexMap.xLength / 2);
 		var middleY:Int = Std.int(hexMap.yLength / 2);
 		
 		hexMap.cells[middleX][middleY].setColor(0x00FF00);
 	}
 	
+	/**
+	 * Generates a 2D guassian distribution starting at the map center
+	 * @param	hexMap
+	 */
 	static public function generateGuassian(hexMap:HexMap) {
 		var middleX:Int = Std.int(hexMap.xLength / 2);
 		var middleY:Int = Std.int(hexMap.yLength / 2);
@@ -24,27 +32,15 @@ class MapGenerator {
 		var amp:Float = 0xFFFFFF;
 		var xSpread:Float = 100.0;
 		var ySpread:Float = 100.0;
+		var nx:Float, dx:Float, ny:Float, dy:Float;
 		for (x in 0...hexMap.xLength) {
 			for (y in 0...hexMap.yLength) {
 				hex = hexMap.cells[x][y];
-				var nx:Float = Math.pow(hex.x - middleHex.x, 2);
-				var dx:Float = 2 * Math.pow(xSpread, 2);
-				var ny:Float = Math.pow(hex.y - middleHex.y, 2);
-				var dy:Float = 2 * Math.pow(ySpread, 2);
-				var t:Float = nx / dx + ny / dy;
-				var u:Float = Math.exp( -1 * t );
-				z = amp * Math.exp( -1 *
-					( Math.pow(hex.x - middleHex.x, 2) / ( 2 * Math.pow(xSpread, 2) ) + Math.pow(hex.y - middleHex.y, 2) / ( 2 * Math.pow(ySpread, 2) ) ) 
-				);
-				/*
-				 * trace(z);
-				trace(nx);
-				trace(dx);
-				trace(ny);
-				trace(dy);
-				trace(t);
-				trace(u);
-				*/
+				nx = Math.pow(hex.x - middleHex.x, 2);
+				dx = 2 * Math.pow(xSpread, 2);
+				ny = Math.pow(hex.y - middleHex.y, 2);
+				dy = 2 * Math.pow(ySpread, 2);
+				z = amp * Math.exp( -1 * ( nx / dx + ny / dy ) );
 				hex.setColor( Std.int(z) );
 			}
 		}

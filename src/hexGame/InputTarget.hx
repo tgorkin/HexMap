@@ -1,7 +1,8 @@
 package hexGame;
 
 /**
- * ...
+ * Interface for a class that receives input events from an input handler
+ * @see hexGame.InputHandler
  * @author tgorkin
  */
 
